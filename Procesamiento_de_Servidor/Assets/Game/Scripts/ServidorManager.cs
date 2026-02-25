@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class ServidorManager : MonoBehaviour
@@ -10,13 +11,13 @@ public class ServidorManager : MonoBehaviour
 
     // ===== MÉTRICAS =====
     private float sumaTiemposEspera = 0f;
-    private int totalProcesados = 0;
+
     public float TiempoPromedioEspera
     {
         get
         {
-            if (totalProcesados > 0)
-                return sumaTiemposEspera / totalProcesados;
+            if (historialProcesados.Count > 0)
+                return sumaTiemposEspera / historialProcesados.Count;
             else
                 return 0f;
         }
@@ -27,7 +28,7 @@ public class ServidorManager : MonoBehaviour
     [SerializeField] private float intervaloMin = 2f;
     [SerializeField] private float intervaloMax = 4f;
     [SerializeField] private int minPaquetes = 1;
-    [SerializeField] private int maxPaquetes = 6; // Para Random.Range(1,6) usamos 6
+    [SerializeField] private int maxPaquetes = 6;
     [SerializeField] private int tamanoMin = 1;
     [SerializeField] private int tamanoMax = 1024;
 
@@ -35,9 +36,25 @@ public class ServidorManager : MonoBehaviour
     [Header("Referencia UI")]
     [SerializeField] private UIManager uiManager;
 
+    // ===== PERSISTENCIA =====
+    private string rutaArchivo => Path.Combine(Application.streamingAssetsPath, "datosServidor.json");
+
     private void Start()
     {
+        if (uiManager == null)
+        {
+            uiManager = FindObjectOfType<UIManager>();
+            if (uiManager == null)
+                Debug.LogError("No se encontró UIManager en la escena. Asigna la referencia manualmente.");
+        }
+
+        CargarEstado();
         StartCoroutine(GenerarPaquetes());
+    }
+
+    private void OnApplicationQuit()
+    {
+        GuardarEstado();
     }
 
     IEnumerator GenerarPaquetes()
@@ -55,11 +72,10 @@ public class ServidorManager : MonoBehaviour
                 colaProcesamiento.Enqueue(nuevoPaquete);
             }
 
-            // Actualizar UI después de generar
             if (uiManager != null)
             {
                 uiManager.ActualizarContadorCola(colaProcesamiento.Count);
-                uiManager.ActualizarSaturacion(colaProcesamiento.Count); // <-- AÑADIDO
+                uiManager.ActualizarSaturacion(colaProcesamiento.Count);
             }
         }
     }
@@ -75,28 +91,91 @@ public class ServidorManager : MonoBehaviour
         PaqueteDato paquete = colaProcesamiento.Dequeue();
         float espera = Time.time - paquete.TiempoLlegada;
 
-        // Verificación obligatoria con ContainsKey
         if (!historialProcesados.ContainsKey(paquete.Id))
         {
             historialProcesados.Add(paquete.Id, paquete);
+            sumaTiemposEspera += espera;
         }
         else
         {
-            Debug.LogWarning("ID duplicado (no debería ocurrir con UUID). No se agregó al historial.");
+            Debug.LogWarning("ID duplicado (no debería ocurrir). El paquete no se almacenó en el historial.");
         }
 
-        // Actualizar métricas
-        sumaTiemposEspera += espera;
-        totalProcesados++;
-
-        // Actualizar UI con todos los elementos
         if (uiManager != null)
         {
             uiManager.ActualizarContadorCola(colaProcesamiento.Count);
             uiManager.ActualizarUltimoProcesado(paquete, espera);
-            uiManager.ActualizarTotalHistorico(totalProcesados); // o historialProcesados.Count
-            uiManager.ActualizarPromedio(TiempoPromedioEspera);  // <-- AÑADIDO (obligatorio)
+            uiManager.ActualizarTotalHistorico(historialProcesados.Count);
+            uiManager.ActualizarPromedio(TiempoPromedioEspera);
             uiManager.ActualizarSaturacion(colaProcesamiento.Count);
         }
     }
+
+    [ContextMenu("Guardar Estado")]
+    public void GuardarEstado()
+    {
+        if (!Directory.Exists(Application.streamingAssetsPath))
+            Directory.CreateDirectory(Application.streamingAssetsPath);
+
+        DatosServidor datos = new DatosServidor();
+        datos.colaList = new List<PaqueteDato>(colaProcesamiento);
+        datos.historialList = new List<PaqueteDato>(historialProcesados.Values);
+        datos.sumaTiemposEspera = sumaTiemposEspera;
+
+        string json = JsonUtility.ToJson(datos, true);
+        File.WriteAllText(rutaArchivo, json);
+        Debug.Log("Estado guardado en: " + rutaArchivo);
+    }
+
+    [ContextMenu("Cargar Estado")]
+    public void CargarEstado()
+    {
+        if (!File.Exists(rutaArchivo))
+        {
+            Debug.Log("No hay archivo de guardado previo.");
+            return;
+        }
+
+        string json = File.ReadAllText(rutaArchivo);
+        DatosServidor datos = JsonUtility.FromJson<DatosServidor>(json);
+
+        colaProcesamiento.Clear();
+        foreach (var p in datos.colaList)
+            colaProcesamiento.Enqueue(p);
+
+        historialProcesados.Clear();
+        foreach (var p in datos.historialList)
+        {
+            if (!historialProcesados.ContainsKey(p.Id))
+                historialProcesados.Add(p.Id, p);
+        }
+
+        sumaTiemposEspera = datos.sumaTiemposEspera;
+
+        if (uiManager != null)
+        {
+            uiManager.ActualizarContadorCola(colaProcesamiento.Count);
+            uiManager.ActualizarTotalHistorico(historialProcesados.Count);
+            uiManager.ActualizarPromedio(TiempoPromedioEspera);
+            uiManager.ActualizarSaturacion(colaProcesamiento.Count);
+        }
+
+        Debug.Log("Estado cargado desde: " + rutaArchivo);
+    }
+
+    public PaqueteDato BuscarPorId(string id)
+    {
+        if (historialProcesados.ContainsKey(id))
+            return historialProcesados[id];
+        else
+            return null;
+    }
+}
+
+[System.Serializable]
+public class DatosServidor
+{
+    public List<PaqueteDato> colaList;
+    public List<PaqueteDato> historialList;
+    public float sumaTiemposEspera;
 }
