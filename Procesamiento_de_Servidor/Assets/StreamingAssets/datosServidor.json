@@ -1,0 +1,92 @@
+{
+    "colaList": [
+        {
+            "id": "A07DB6",
+            "tamanoCarga": 332,
+            "tiempoLlegada": 0.0
+        },
+        {
+            "id": "FD7B26",
+            "tamanoCarga": 79,
+            "tiempoLlegada": 0.0
+        },
+        {
+            "id": "C337B9",
+            "tamanoCarga": 424,
+            "tiempoLlegada": 0.0
+        },
+        {
+            "id": "EF67E1",
+            "tamanoCarga": 320,
+            "tiempoLlegada": 0.0
+        },
+        {
+            "id": "11B174",
+            "tamanoCarga": 893,
+            "tiempoLlegada": 0.0
+        }
+    ],
+    "historialList": [
+        {
+            "id": "C13BA2",
+            "tamanoCarga": 47,
+            "tiempoLlegada": 2.016616106033325
+        },
+        {
+            "id": "78DD76",
+            "tamanoCarga": 362,
+            "tiempoLlegada": 0.0
+        },
+        {
+            "id": "7A1CFB",
+            "tamanoCarga": 828,
+            "tiempoLlegada": 0.0
+        },
+        {
+            "id": "957A98",
+            "tamanoCarga": 536,
+            "tiempoLlegada": 0.0
+        },
+        {
+            "id": "6E77E5",
+            "tamanoCarga": 211,
+            "tiempoLlegada": 0.0
+        },
+        {
+            "id": "537F7F",
+            "tamanoCarga": 195,
+            "tiempoLlegada": 0.0
+        },
+        {
+            "id": "56586E",
+            "tamanoCarga": 392,
+            "tiempoLlegada": 0.0
+        },
+        {
+            "id": "96F6A3",
+            "tamanoCarga": 749,
+            "tiempoLlegada": 2.710092067718506
+        },
+        {
+            "id": "24FA63",
+            "tamanoCarga": 603,
+            "tiempoLlegada": 2.710092067718506
+        },
+        {
+            "id": "3A2781",
+            "tamanoCarga": 404,
+            "tiempoLlegada": 2.710092067718506
+        },
+        {
+            "id": "5B283A",
+            "tamanoCarga": 975,
+            "tiempoLlegada": 2.710092067718506
+        },
+        {
+            "id": "4043A7",
+            "tamanoCarga": 361,
+            "tiempoLlegada": 2.710092067718506
+        }
+    ],
+    "sumaTiemposEspera": 17.010021209716798
+}

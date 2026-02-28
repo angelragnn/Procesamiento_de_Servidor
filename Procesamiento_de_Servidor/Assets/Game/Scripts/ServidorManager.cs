@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+[SerializeField]
 public class ServidorManager : MonoBehaviour
 {
-    // ===== ESTRUCTURAS PRINCIPALES =====
+    
     public Queue<PaqueteDato> colaProcesamiento = new Queue<PaqueteDato>();
     public Dictionary<string, PaqueteDato> historialProcesados = new Dictionary<string, PaqueteDato>();
 
-    // ===== MÉTRICAS =====
+    
     private float sumaTiemposEspera = 0f;
 
     public float TiempoPromedioEspera
@@ -23,20 +24,20 @@ public class ServidorManager : MonoBehaviour
         }
     }
 
-    // ===== CONFIGURACIÓN GENERACIÓN =====
-    [Header("Configuración de generación")]
-    [SerializeField] private float intervaloMin = 2f;
-    [SerializeField] private float intervaloMax = 4f;
-    [SerializeField] private int minPaquetes = 1;
-    [SerializeField] private int maxPaquetes = 6;
-    [SerializeField] private int tamanoMin = 1;
-    [SerializeField] private int tamanoMax = 1024;
+    
+    
+    private float intervaloMin = 2f;
+    private float intervaloMax = 4f;
+    private int minPaquetes = 1;
+    private int maxPaquetes = 6;
+    private int tamanoMin = 1;
+    private int tamanoMax = 1024;
 
-    // ===== REFERENCIA A UI =====
-    [Header("Referencia UI")]
-    [SerializeField] private UIManager uiManager;
+    
+    
+    private UIManager uiManager;
 
-    // ===== PERSISTENCIA =====
+    
     private string rutaArchivo => Path.Combine(Application.streamingAssetsPath, "datosServidor.json");
 
     private void Start()
@@ -111,7 +112,7 @@ public class ServidorManager : MonoBehaviour
         }
     }
 
-    [ContextMenu("Guardar Estado")]
+    
     public void GuardarEstado()
     {
         if (!Directory.Exists(Application.streamingAssetsPath))
@@ -127,7 +128,7 @@ public class ServidorManager : MonoBehaviour
         Debug.Log("Estado guardado en: " + rutaArchivo);
     }
 
-    [ContextMenu("Cargar Estado")]
+    
     public void CargarEstado()
     {
         if (!File.Exists(rutaArchivo))
@@ -174,7 +175,7 @@ public class ServidorManager : MonoBehaviour
     }
 }
 
-[System.Serializable]
+
 public class DatosServidor
 {
     public List<PaqueteDato> colaList;

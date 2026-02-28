@@ -4,7 +4,7 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    [Header("Textos de la interfaz (TextMeshPro)")]
+    
     public TMP_Text txtContadorCola;          
     public TMP_Text txtUltimoProcesado;       
     public TMP_Text txtTotalHistorico;        
@@ -12,11 +12,11 @@ public class UIManager : MonoBehaviour
     public TMP_Text txtSaturacion;            
     public Image panelSaturacion;             
 
-    [Header("Buscador por ID")]
+    
     public TMP_InputField inputBuscarID;      
     public TMP_Text txtResultadoBusqueda;     
 
-    [Header("Colores")]
+    
     public Color colorNormal = Color.white;
     public Color colorSaturado = Color.red;
 
