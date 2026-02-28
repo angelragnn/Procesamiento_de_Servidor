@@ -139,9 +139,11 @@ public class ServidorManager : MonoBehaviour
         string json = File.ReadAllText(rutaArchivo);
         DatosServidor datos = JsonUtility.FromJson<DatosServidor>(json);
 
-        colaProcesamiento.Clear();
         foreach (var p in datos.colaList)
+        {
+            p.TiempoLlegada = Time.time;
             colaProcesamiento.Enqueue(p);
+        }
 
         historialProcesados.Clear();
         foreach (var p in datos.historialList)
