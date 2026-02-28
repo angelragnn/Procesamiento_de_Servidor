@@ -1,29 +1,24 @@
 {
     "colaList": [
         {
-            "id": "A07DB6",
-            "tamanoCarga": 332,
+            "id": "509E40",
+            "tamanoCarga": 7,
             "tiempoLlegada": 0.0
         },
         {
-            "id": "FD7B26",
-            "tamanoCarga": 79,
-            "tiempoLlegada": 0.0
+            "id": "4847CA",
+            "tamanoCarga": 663,
+            "tiempoLlegada": 3.935727834701538
         },
         {
-            "id": "C337B9",
-            "tamanoCarga": 424,
-            "tiempoLlegada": 0.0
+            "id": "4BF521",
+            "tamanoCarga": 988,
+            "tiempoLlegada": 3.935727834701538
         },
         {
-            "id": "EF67E1",
-            "tamanoCarga": 320,
-            "tiempoLlegada": 0.0
-        },
-        {
-            "id": "11B174",
-            "tamanoCarga": 893,
-            "tiempoLlegada": 0.0
+            "id": "26724B",
+            "tamanoCarga": 869,
+            "tiempoLlegada": 3.935727834701538
         }
     ],
     "historialList": [
@@ -86,7 +81,47 @@
             "id": "4043A7",
             "tamanoCarga": 361,
             "tiempoLlegada": 2.710092067718506
+        },
+        {
+            "id": "A07DB6",
+            "tamanoCarga": 332,
+            "tiempoLlegada": 0.0
+        },
+        {
+            "id": "FD7B26",
+            "tamanoCarga": 79,
+            "tiempoLlegada": 0.0
+        },
+        {
+            "id": "C337B9",
+            "tamanoCarga": 424,
+            "tiempoLlegada": 0.0
+        },
+        {
+            "id": "EF67E1",
+            "tamanoCarga": 320,
+            "tiempoLlegada": 0.0
+        },
+        {
+            "id": "11B174",
+            "tamanoCarga": 893,
+            "tiempoLlegada": 0.0
+        },
+        {
+            "id": "6F132F",
+            "tamanoCarga": 462,
+            "tiempoLlegada": 0.0
+        },
+        {
+            "id": "70DA61",
+            "tamanoCarga": 515,
+            "tiempoLlegada": 0.0
+        },
+        {
+            "id": "52C718",
+            "tamanoCarga": 270,
+            "tiempoLlegada": 0.0
         }
     ],
-    "sumaTiemposEspera": 17.010021209716798
+    "sumaTiemposEspera": 47.36161804199219
 }
